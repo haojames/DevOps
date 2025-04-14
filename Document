@@ -1,0 +1,186 @@
+Declarative  -> pipline{
+			Agent any
+			Stages{
+				Stage('Build')
+				}
+					}
+Scripted -> node {
+				Stage{}}
+				
+
+
+Share Lib
+		Directory Structure -> src, vars, resources
+CPS 
+
+
+Groop OOP base on Java flatform.
+
+Support:
+	+ static and dynamic type
+	+ operator overloading
+	+ Native syntax for list and associative arrays
+	+ regular expression
+	+ markup XML and HTML
+	+ Java Lib
+	+ extend java.lang.Object
+1 Basic Syntax
+	Import -> library
+	Def  -> define function, dynamic type.
+	
+	Comment - > //
+			/**/
+	
+	Keywords  khong dung keyword khi dat ten bien
+	Data Types -> Cx just work with int, string, boolean
+				-  Class Numeric
+				- Variables
+						- Relational Math
+						- Assignment operators
+	Strings -> Quotes ''
+				'''
+				Hello World
+				'''
+		String Interpolaton ${}
+		Escaping Special Characters
+		Repetation *
+		String Length length() method
+
+
+
+What is Grafana
+Overview: Open source, draw graphs base on metrics, logs, traces.
+Warning over Email, Team, AWS SNS.
+Support multiple data sources: 
+Dashboard:
+		+ Main page include options.
+Panel: 
+		+ Get data from data source by matrics.
+Data Source:
+		+ Systems or datasources 
+
+Main components in Grafana
+	Alert: Warning Information, create Contact point
+	Users and Permissions: Manage user and role policy
+	Plugins:
+	Templating: User variables filter on the dashboard.
+
+
+Overview: Database real-time get data follow run-time by GO
+
+• Thu thập số liệu (metrics) theo thời gian (time-series) từ các dịch vụ/hệ thống mà nó giám sát.
+• Lưu trữ dữ liệu metrics vào cơ sở dữ liệu riêng của nó, tối ưu cho dữ liệu dạng time-series.
+• Cho phép truy vấn dữ liệu với ngôn ngữ PromQL (Prometheus Query Language).
+• Hỗ trợ cảnh báo (alerting) thông qua Alertmanager.
+• Có giao diện web cơ bản để xem dữ liệu và biểu đồ.
+
+Prometheus hoạt động dựa trên cơ chế pull model, nghĩa là nó định kỳ gọi tới các endpoint (thường là /metrics) của các service để lấy dữ liệu.
+(Ngoại lệ là với các target không thể expose endpoint, thì có thể dùng push gateway.)
+
+Thành phần	Mô tả
+Prometheus Server	Thu thập, lưu trữ và xử lý dữ liệu
+Exporter	Các chương trình hoặc plugin cung cấp metrics cho Prometheus (ví dụ: Node Exporter, MySQL Exporter)
+Pushgateway	Nhận dữ liệu từ các job ngắn hạn (short-lived) và đẩy về Prometheus
+Alertmanager	Quản lý cảnh báo và gửi thông báo (qua email, Slack, v.v.)
+PromQL	Ngôn ngữ truy vấn dữ liệu trong Prometheus
+
+
+
+Splunk dùng làm gì?
+	1. Giám sát hệ thống (IT Monitoring)
+		○ Theo dõi hiệu suất máy chủ, ứng dụng, thiết bị mạng...
+		○ Cảnh báo khi có sự cố xảy ra.
+	2. Quản lý log (Log Management)
+		○ Thu thập, lưu trữ và phân tích log từ nhiều nguồn khác nhau (Linux, Windows, tường lửa, ứng dụng…).
+	3. Bảo mật (Security)
+		○ Sử dụng để phát hiện hành vi bất thường, xâm nhập, log cảnh báo.
+		○ Là nền tảng cho các giải pháp SIEM như Splunk Enterprise Security.
+	4. DevOps / Observability
+		○ Hỗ trợ phân tích sự cố (troubleshooting) và tối ưu hiệu suất hệ thống (APM).
+		○ Giúp theo dõi toàn bộ lifecycle của ứng dụng (logs, metrics, traces).
+Thành phần	Chức năng chính
+Splunk Forwarder	Gửi log từ máy nguồn đến Splunk indexer
+Splunk Indexer	Lưu trữ, lập chỉ mục và phân tích dữ liệu
+Splunk Search Head	Giao diện người dùng để tìm kiếm, tạo dashboard và cảnh báo
+
+
+Điểm mạnh của Splunk
+	• Hỗ trợ real-time monitoring
+	• Có dashboard trực quan
+	• Hỗ trợ nhiều định dạng log & dữ liệu không cấu trúc
+	• Mạnh mẽ trong query với ngôn ngữ SPL (Search Processing Language)
+
+
+
+Create graphs then create dashboard for which info you want.
+System Structure in BEG
+
+Cấu hình XML ➝ Exporter Framework ➝ Tích hợp ALM tools ➝ Phân phối tải ➝ Xuất dữ liệu ra CSV, DB hoặc PDF
+
+
+🔧1. Configuration Input
+	• Góc dưới bên trái là tệp cấu hình dạng XML (file configInput.xml), trong đó:
+		○ Xác định các loại công cụ (tool-type)
+		○ Các module cần tích hợp, các thuộc tính và định dạng liên kết dữ liệu.
+	• Tệp này làm đầu vào cấu hình cho hệ thống.
+
+🔄 2. Exporter Framework
+	• Đây là lõi xử lý chính của hệ thống.
+	• Nhận dữ liệu từ các công cụ quản lý vòng đời ứng dụng (ALM tools) và xử lý xuất dữ liệu theo các định dạng khác nhau.
+	• Dữ liệu đầu vào đi qua thành phần Load Balancing để phân phối khối lượng xử lý đều.
+
+🔌 3. Các công cụ ALM được tích hợp (IBM Jazz Suite)
+Các công cụ chính trong hệ thống (góc trên):
+Tên công cụ	Viết tắt	Chức năng
+DNG	DOORS Next Generation	Quản lý yêu cầu (Requirements Management)
+RQM	Rational Quality Manager	Quản lý kiểm thử phần mềm (Test Management)
+RTC	Rational Team Concert	Quản lý mã nguồn, tác vụ, tiến trình dự án
+RMM	Rational Method Composer (hoặc một công cụ mở rộng khác)	
+DC	Design Component (hoặc Data Collector tùy ngữ cảnh)	
+🔁 Các công cụ này giao tiếp thông qua OSLC & REST API đến Exporter Framework.
+
+☁️ 4. Nền tảng Jazz Platform
+	• Dưới cùng là nền tảng IBM Jazz Integration Architecture – nơi tất cả các công cụ IBM Rational tích hợp và hoạt động chung.
+	• Các tính năng như: Dashboards, Security, Notification, Audit Trail…
+
+📤 5. Xuất dữ liệu (Export Outputs)
+Hệ thống hỗ trợ xuất dữ liệu theo nhiều định dạng nhờ vào Extendable Tool Support:
+	• CSV Export → Excel
+	• DB Export → Cơ sở dữ liệu (Database)
+	• PDF Export → Tài liệu PDF báo cáo
+
+💬 6. Một số nhãn trong hình:
+	• QC → Có thể là tích hợp với HP Quality Center (tùy hệ thống).
+	• BitBucket → Quản lý mã nguồn (SCM).
+	• Track and Release → Quản lý quy trình phát hành phần mềm.
+
+
+
+🔍 Bảng So Sánh Splunk vs Power BI
+Tiêu chí	Splunk	Power BI
+Mục đích chính	Phân tích log, machine data, DevOps, bảo mật (SIEM)	Trực quan hóa dữ liệu kinh doanh từ cơ sở dữ liệu, Excel, v.v.
+Nguồn dữ liệu	Logs, syslogs, metrics, events từ hệ thống IT, ứng dụng, server	Excel, SQL Server, Azure, SharePoint, web APIs, Salesforce, v.v.
+Xử lý dữ liệu real-time	Rất tốt, hỗ trợ streaming & cảnh báo theo thời gian thực	Hạn chế, thường dùng batch update hoặc refresh theo thời gian
+Ngôn ngữ truy vấn	SPL (Search Processing Language)	DAX (Data Analysis Expressions), Power Query (M)
+Ứng dụng điển hình	Giám sát hệ thống, bảo mật, phát hiện sự cố, phân tích log	KPI doanh nghiệp, báo cáo doanh số, quản trị tài chính, nhân sự...
+Bảo mật và SIEM	Tích hợp sẵn trong Splunk Enterprise Security (SIEM)	Không hỗ trợ trực tiếp bảo mật/giám sát hệ thống
+Khả năng tùy biến báo cáo	Rất tốt, nhất là cho log, truy vấn drill-down theo event	Xuất sắc cho báo cáo kinh doanh, KPI, nhiều biểu đồ tùy biến đẹp
+Đối tượng người dùng chính	DevOps, Admin hệ thống, SOC (Security Operation Center)	Business Analyst, Nhân viên kinh doanh, quản trị báo cáo
+Chi phí	Cao hơn (dựa trên dung lượng dữ liệu log thu thập/ngày)	Rẻ hơn, có bản miễn phí & bản Pro theo người dùng
+
+✅ Khi nào chọn Splunk?
+	• Bạn làm việc với log hệ thống, dữ liệu từ server, ứng dụng, máy chủ bảo mật.
+	• Cần real-time monitoring, alerting, machine learning trên log.
+	• Là DevOps engineer, system admin, hoặc làm trong lĩnh vực bảo mật IT.
+	• Bạn cần SIEM để phát hiện tấn công, sự cố bảo mật.
+
+✅ Khi nào chọn Power BI?
+	• Bạn phân tích dữ liệu kinh doanh (doanh số, marketing, tài chính...).
+	• Dữ liệu bạn đến từ SQL, Excel, Salesforce, v.v.
+	• Người dùng chính là ban lãnh đạo, nhân viên kinh doanh, kế toán.
+	• Cần trực quan hóa biểu đồ, KPI đẹp, có thể chia sẻ qua Teams, SharePoint.
+
+🎯 Tóm tắt nhanh
+Nếu bạn là...	Nên dùng...
+DevOps/System Admin	✅ Splunk
+Business Analyst / Kế toán / Kinh doanh	✅ Power BI
