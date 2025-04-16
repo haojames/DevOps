@@ -13,9 +13,17 @@ pipeline {
     }
     stage('Build') {
             steps {
-                script {
-                    // Chạy lệnh Maven build
-                    sh 'mvn clean install'
+                sh 'sudo mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'sudo mvn test'
+            }
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml'
                 }
             }
         }
