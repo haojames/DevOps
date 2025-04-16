@@ -1,8 +1,9 @@
 pipeline {
   agent any
+
   tools {
-        maven 'Maven 3.8.8' // Cấu hình Maven đã cài sẵn trong Jenkins
-        jdk 'JDK 11'        // Cấu hình JDK đã cài sẵn trong Jenkins
+        maven "Maven 3.8.8" // Cấu hình Maven đã cài sẵn trong Jenkins
+        jdk "JDK 11"        // Cấu hình JDK đã cài sẵn trong Jenkins
     }
   stages {
     stage('Checkout') {
