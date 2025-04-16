@@ -184,3 +184,196 @@ Chi phí	Cao hơn (dựa trên dung lượng dữ liệu log thu thập/ngày)	R
 Nếu bạn là...	Nên dùng...
 DevOps/System Admin	✅ Splunk
 Business Analyst / Kế toán / Kinh doanh	✅ Power BI
+
+
+
+Tiêu chí	Freestyle Project	Pipeline Project
+Cách tạo cấu hình	Dùng giao diện web (UI), tạo từng bước bằng tay	Viết script bằng Groovy/Jenkinsfile
+Tính linh hoạt	Hạn chế, khó mở rộng phức tạp	Rất linh hoạt, hỗ trợ logic phức tạp
+Kiểm soát phiên bản (Git)	Cấu hình trong Jenkins, không version control	Jenkinsfile nằm trong Git, dễ kiểm soát & rollback
+Hỗ trợ nhiều stage	Hạn chế, khó nhìn tổng thể	Hỗ trợ nhiều stage, dễ visualize flow
+Khả năng tái sử dụng code	Không, mỗi job là riêng biệt	Có thể dùng shared libraries, modular hóa
+Tích hợp DevOps hiện đại	Hạn chế, khó CI/CD phức tạp	Tích hợp tốt với GitOps, DevOps pipelines
+Khả năng chạy song song	Gần như không có	Có thể chạy các bước song song (parallel stages)
+Khả năng debug/logging	Khá đơn giản	Chi tiết, rõ ràng theo từng stage
+Learning curve	Dễ tiếp cận cho người mới	Cần học Groovy/Jenkins DSL nên khó hơn một chút
+
+
+Tiêu chí	Declarative Pipeline	Scripted Pipeline
+Cú pháp	Dễ hiểu, có cấu trúc rõ ràng	Tự do, linh hoạt (Groovy)
+Độ phổ biến	Cao hơn hiện tại	Ít hơn, nhưng vẫn dùng cho custom use
+Linh hoạt	Vừa phải	Cao
+Khả năng xử lý logic	Hạn chế	Mạnh mẽ (if, for, try-catch...)
+Độ phù hợp với CI/CD	Tốt cho hầu hết use case	Tốt cho các use case đặc biệt
+
+
+
+Dùng Shared Library để tạo pipeline trong Jenkins sẽ giúp đơn giản hóa và cải thiện việc quản lý pipeline, đặc biệt khi bạn có nhiều dự án hoặc pipeline phức tạp. Dưới đây là một số lợi ích của việc sử dụng Shared Library:
+
+✅ Lợi ích của việc dùng Shared Library:
+	1. Tái sử dụng code:
+		○ Bạn có thể viết logic pipeline một lần trong thư viện chung (shared library), rồi sử dụng lại ở nhiều dự án.
+		○ Giảm bớt việc sao chép mã giống nhau giữa các Jenkinsfile.
+	2. Dễ bảo trì:
+		○ Nếu bạn cần thay đổi một bước trong pipeline (ví dụ: bước deploy), bạn chỉ cần thay đổi nó trong Shared Library thay vì thay đổi trong từng Jenkinsfile.
+		○ Việc bảo trì và cập nhật trở nên dễ dàng và nhanh chóng.
+	3. Chia sẻ giữa các đội:
+		○ Các nhóm khác nhau có thể cùng sử dụng một shared library cho các bước chung như build, test, deploy, và không phải viết lại chúng.
+		○ Đảm bảo tính đồng nhất trong các pipeline.
+	4. Quản lý phiên bản dễ dàng:
+		○ Bạn có thể quản lý các phiên bản khác nhau của thư viện và chỉ cần thay đổi phiên bản thư viện trong các pipeline.
+	5. Dễ dàng mở rộng:
+		○ Khi bạn cần thêm một chức năng mới (ví dụ: kiểm tra bảo mật, bước phát hành), chỉ cần thêm một function vào shared library và mọi pipeline sử dụng thư viện đó sẽ tự động có tính năng mới mà không cần sửa từng Jenkinsfile.
+
+🧑‍💻 Ví dụ về so sánh:
+Không dùng Shared Library – Các bước đều phải viết trong Jenkinsfile
+
+groovy
+CopyEdit
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    echo "Building project..."
+                    sh './build.sh'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    echo "Running tests..."
+                    sh './test.sh'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    echo "Deploying..."
+                    sh './deploy.sh'
+                }
+            }
+        }
+    }
+}
+Dùng Shared Library – Đơn giản hơn với Jenkinsfile chỉ chứa các bước gọi thư viện
+
+groovy
+CopyEdit
+@Library('my-shared-library') _
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                buildProject()
+            }
+        }
+        stage('Test') {
+            steps {
+                runTests()
+            }
+        }
+        stage('Deploy') {
+            steps {
+                deployProject()
+            }
+        }
+    }
+}
+Trong trường hợp này, các bước buildProject(), runTests(), và deployProject() đều được định nghĩa trong Shared Library và có thể tái sử dụng lại cho các pipeline khác.
+
+🏁 Tóm lại:
+	• Dùng Shared Library sẽ giúp bạn tổ chức, bảo trì và tái sử dụng code tốt hơn.
+	• Nếu bạn có nhiều pipeline hoặc dự án giống nhau, việc tạo một thư viện dùng chung sẽ giảm thiểu sự trùng lặp và dễ bảo trì.
+Nếu bạn muốn làm thử hoặc cần mình giúp tạo một Shared Library mẫu cho Jenkins, mình có thể hướng dẫn chi tiết!
+
+
+Document: 
+• Pipeline Syntax
+
+
+🚀 1. Multibranch Pipeline
+✅ Mục đích:
+Tự động tạo pipeline cho mỗi nhánh (branch) trong một repository Git.
+📦 Ví dụ thực tế:
+Bạn có repo Git tên my-app với các nhánh sau:
+
+diff
+CopyEdit
+- main
+- develop
+- feature/login
+Khi bạn tạo một Multibranch Pipeline trong Jenkins, Jenkins sẽ:
+	• Quét toàn bộ các nhánh trong repo.
+	• Nếu trong nhánh đó có Jenkinsfile, Jenkins tự động tạo job cho từng nhánh.
+	• Mỗi nhánh sẽ có pipeline riêng biệt (có thể test riêng biệt theo nhánh).
+
+📘 Ví dụ Jenkinsfile trong nhánh develop:
+
+groovy
+CopyEdit
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building develop branch"
+            }
+        }
+    }
+}
+Jenkins sẽ build riêng cho develop, và tương tự cho main hoặc feature/... nếu có Jenkinsfile.
+
+🏢 2. Organization Folder
+✅ Mục đích:
+Tự động quản lý nhiều repository thuộc một tổ chức GitHub/GitLab/Bitbucket.
+📦 Ví dụ thực tế:
+Bạn có một tổ chức GitHub tên là mycompany chứa nhiều repo:
+
+diff
+CopyEdit
+- frontend-app
+- backend-api
+- mobile-app
+Khi bạn tạo một Organization Folder trỏ đến https://github.com/mycompany, Jenkins sẽ:
+	• Quét tất cả repo thuộc tổ chức mycompany.
+	• Mỗi repo được xử lý như một Multibranch Pipeline.
+	• Tự động phát hiện nhánh + Jenkinsfile trong mỗi repo → tạo job tương ứng.
+
+🛠 Cách dùng:
+Với Multibranch Pipeline:
+	1. Tạo new item → chọn Multibranch Pipeline.
+	2. Cấu hình:
+		○ Git repo URL
+		○ Credentials nếu cần
+		○ Branch Sources → chọn Git, GitHub...
+		○ Jenkins sẽ tự động tạo job theo từng nhánh.
+Với Organization Folder:
+	1. Tạo new item → chọn Organization Folder.
+	2. Cấu hình:
+		○ Chọn GitHub (hoặc GitLab, Bitbucket...)
+		○ Nhập GitHub org/user
+		○ Thêm credentials nếu cần
+		○ Jenkins sẽ quét toàn bộ các repo trong tổ chức.
+
+🧠 So sánh nhanh:
+
+Tính năng	Multibranch Pipeline	Organization Folder
+Quét theo nhánh	✅ Có	✅ Có
+Quét toàn bộ repo	❌ Không	✅ Có
+Phù hợp cho	Một repo nhiều nhánh	Nhiều repo trong 1 tổ chức
+Mức độ tự động hóa	Trung bình	Cao
+
+
+
+
+
+
+
+
+
+
