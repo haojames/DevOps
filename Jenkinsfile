@@ -13,13 +13,13 @@ pipeline {
     }
     stage('Build') {
             steps {
-                sh 'sudo mvn clean compile'
+                sh 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'sudo mvn test'
+                sh 'mvn test'
             }
             post {
                 always {
