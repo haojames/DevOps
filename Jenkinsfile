@@ -9,7 +9,8 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building...'
-	cat Document
+	def content = readFile 'Document'
+	echo "File content:\n${content}"
       }
     }
     stage('Deploy') {
