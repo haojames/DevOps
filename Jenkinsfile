@@ -13,13 +13,17 @@ pipeline {
     }
     stage('Build') {
             steps {
+		dir('java-hello-jenkins'){
                 sh 'mvn clean compile'
+		}
             }
         }
 
         stage('Test') {
             steps {
+		dir('java-hello-jenkins'){
                 sh 'mvn test'
+		}
             }
             post {
                 always {
